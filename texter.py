@@ -1,39 +1,40 @@
 import logging
 import json
+import os
 import requests
 import sys
 
 #cli-command line interface
 #cli = TwilioRestClient(accountSID, authToken)
 
-#logging configuration
+# logging configuration
 logging.basicConfig(level = logging.DEBUG, format='[%(levelname)s] %(asctime)s -- %(message)s')
 
 from twilio.rest import TwilioRestClient
 
-#twilio credentials
-twilio_authToken = '8f7e01727d917c9e2513f565168f1a12'
-twilio_accountSID = 'AC0c9fac97f90a39692aca9a7da6dbbbaa'
+# twilio credentials
+twilio_authToken = 'TWILIO_AUTH_TOKEN' in os.environ
+twilio_accountSID = 'TWILIO_ACCOUNT_SID' in os.environ
 
-#forecast.io credentials
-forecast_api_key = 'e1f801c2b84d4402143e23cf8ef8bb11'
+# forecast.io credentials
+forecast_api_key = 'FORECAST_API_KEY' in os.environ
 forecast_api_baseurl = 'https://api.forecast.io/forecast/'
 forecast_api_coord = '37.5333,-77.4667'
 forecast_api_url = forecast_api_baseurl + forecast_api_key + '/' + forecast_api_coord
 
-#Dew Point
+# Dew Point
 dewpoint_pleasant = 55
 dewpoint_comfortable = 60
 dewpoint_gettingsticky = 65
 dewpoint_uncomfortable = 70
 
-#sending request for initial data
+# Sending request for initial data
 forecast_raw_data = requests.get(forecast_api_url)
 
-#checking for errors
+# Checking for errors
 forecast_raw_data.raise_for_status()
 
-#getting response text
+# Getting response text
 """"currently":{
       "time":1461809073,
       "summary":"Partly Cloudy",
@@ -57,5 +58,5 @@ dewpoint_data = forecast_data['currently']['dewPoint']
 logging.debug(forecast_data['currently']['dewPoint'])
 
 """twilio_number = '+12403033277'
-recipient_number = '+15712398512'
+recipient_number = 'WEATHER_TEXTER_RECIPIENT_NUMBER' in os.environ
 message = cli.messages.create(body = 'Hi I like butts and the butts like me', from_ = twilio_number, to = recipient_number)"""
